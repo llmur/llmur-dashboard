@@ -37,6 +37,9 @@ export async function createAdminClient() {
     return {
         get account() {
             return new Account(client)
+        },
+        get project() {
+            return new Project(client)
         }
     }
 }

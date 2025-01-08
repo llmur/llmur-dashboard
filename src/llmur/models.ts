@@ -34,6 +34,19 @@ export namespace Models {
     /**
      * Project List
      */
+    export type ProjectInviteList = {
+        /**
+         * Total number of users documents that matched your query.
+         */
+        total: number;
+        /**
+         * List of users.
+         */
+        invites: ProjectInvite[];
+    }
+    /**
+     * Project Invite List
+     */
     export type ProjectMembershipList = {
         /**
          * Total number of membership documents that matched your query.
@@ -122,6 +135,15 @@ export namespace Models {
         email_verified: boolean;
     }
     /**
+     * User
+     */
+    export type IdRecord = {
+        /**
+         *  ID.
+         */
+        id: string;
+    }
+    /**
      * Preferences
      */
     export type Preferences = {
@@ -176,6 +198,35 @@ export namespace Models {
          * The project name.
          */
         name: string;
+    };
+    /**
+     *  Project Invite
+     */
+    export type ProjectInvite = {
+        /**
+         * Id of the project invite
+         */
+        id: string;
+        /**
+         * The project id.
+         */
+        project_id: string;
+        /**
+         * The project name.
+         */
+        project_name: string;
+        /**
+         * The invite code
+         */
+        code: string;
+        /**
+         * The Role that will be assigned to a user when he joins the team
+         */
+        assign_role: ProjectRole;
+        /**
+         * Timestamp that represents the until when the code is active. Utc
+         */
+        valid_until?: number;
     };
     /**
      *  Project

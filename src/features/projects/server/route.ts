@@ -1,6 +1,6 @@
 import {Hono} from "hono";
 import {zValidator} from "@hono/zod-validator";
-import {createProjectSchema, updateProjectSchema} from "@/features/projects/schemas";
+import {createInviteSchema, createProjectSchema, updateProjectSchema} from "@/features/projects/schemas";
 import {sessionMiddleware} from "@/lib/session-middleware";
 import {ProjectRole} from "@/llmur";
 import {z} from "zod";
@@ -91,6 +91,62 @@ const app = new Hono()
             //const lst = await project.members({id: projectId});
             // TODO
             return c.json({data: null});
+        }
+    )
+    .post("/:projectId/invite",
+        sessionMiddleware,
+        zValidator("json", createInviteSchema),
+        async (c) => {
+            const project = c.get("project")
+            const projectId = c.req.param('projectId')
+
+            const {defaultRole, codeLength, validity} = c.req.valid("json")
+
+            const invite = await project.create_invite_code(
+                {
+                    projectId,
+                    role: defaultRole,
+                    codeLength,
+                    validity,
+                });
+
+            return c.json({data: invite});
+        }
+    )
+    .get("/:projectId/invites",
+        sessionMiddleware,
+        async (c) => {
+            const project = c.get("project")
+            const projectId = c.req.param('projectId')
+
+            const invite = await project.invite_codes({
+                id: projectId
+            });
+
+            return c.json({data: invite});
+        }
+    )
+    .delete("/invite/:inviteId",
+        sessionMiddleware,
+        async (c) => {
+            const project = c.get("project")
+            const inviteId = c.req.param('inviteId')
+
+            const id = await project.delete_invite({id: inviteId});
+
+            return c.json({data: null});
+        }
+    )
+    .post("join",
+        sessionMiddleware,
+        zValidator("json", z.object({code: z.string()})),
+        async (c) => {
+            const {code} = c.req.valid('json');
+            const project = c.get("project");
+
+            const membership = await project.join_with_code({code})
+
+            return c.json({data: membership});
         }
     );
 
