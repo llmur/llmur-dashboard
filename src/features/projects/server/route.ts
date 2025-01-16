@@ -148,6 +148,18 @@ const app = new Hono()
 
             return c.json({data: membership});
         }
+    ).get("/:projectId/deployments",
+        sessionMiddleware,
+        async (c) => {
+            const project = c.get("project")
+            const projectId = c.req.param('projectId')
+
+            const deployments = await project.deployments({
+                id: projectId
+            });
+
+            return c.json({data: deployments});
+        }
     );
 
 export default app;

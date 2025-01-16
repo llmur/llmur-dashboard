@@ -15,6 +15,10 @@ interface GetProjectParams {
     id: string;
 }
 
+interface GetProjectDeploymentsParams {
+    id: string;
+}
+
 interface DeleteProjectParams {
     id: string;
 }
@@ -287,10 +291,8 @@ export class Project {
      * @returns {Promise<Models.ProjectList>}
      */
     async get_invite_with_code({code}: GetInviteWithCodeParams): Promise<Models.ProjectInvite> {
-        const apiPath = `/internal/project/invite`;
-        const payload: Payload = {
-            code: code
-        };
+        const apiPath = `/internal/project/invite?code=${code}`;
+        const payload: Payload = {};
         const uri = new URL(this.client.config.endpoint + apiPath);
 
         const apiHeaders: { [header: string]: string } = {
@@ -338,4 +340,20 @@ export class Project {
         );
     }
 
+    async deployments({id}: GetProjectDeploymentsParams): Promise<Models.DeploymentList> {
+        const apiPath = `/internal/project/${id}/deployments`;
+        const payload: Payload = {};
+        const uri = new URL(this.client.config.endpoint + apiPath);
+
+        const apiHeaders: { [header: string]: string } = {
+            'content-type': 'application/json',
+        }
+
+        return await this.client.call(
+            'get',
+            uri,
+            apiHeaders,
+            payload,
+        );
+    }
 }

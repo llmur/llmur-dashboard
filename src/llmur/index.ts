@@ -6,6 +6,6 @@ export { Project } from './services/project';
 export { AzureOpenAiApiVersion } from './enums/azure-versions';
 export { ProjectRole } from './enums/project-roles';
 export { ApplicationRole } from './enums/application-role';
-export { Providers } from './enums/providers';
+export { Provider } from './enums/providers';
 
 export type { Models, Payload, UploadProgress } from './client';

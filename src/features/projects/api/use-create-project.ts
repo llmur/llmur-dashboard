@@ -3,11 +3,13 @@ import {InferRequestType, InferResponseType} from "hono";
 import {toast} from "sonner";
 
 import {client} from "@/lib/rpc";
+import {useRouter} from "next/navigation";
 
 type ResponseType = InferResponseType<typeof client.api.project["$post"]>;
 type RequestType = InferRequestType<typeof client.api.project["$post"]>;
 
 export const useCreateProject = () => {
+    const router = useRouter();
     const queryClient = useQueryClient();
     const mutation = useMutation<
         ResponseType,
@@ -25,6 +27,7 @@ export const useCreateProject = () => {
         },
         onSuccess: () => {
             toast.success("Project created successfully");
+            router.refresh();
             queryClient.invalidateQueries({queryKey: ["project"]});
         },
         onError: () => {

@@ -39,6 +39,7 @@ export const Navigation = () => {
                 const fullHref = `/project/${projectId}${item.href}`;
                 const isActive = pathname === fullHref;
                 const Icon = isActive ? item.icon : item.activeIcon;
+
                 return (
                     <Link key={item.href} href={fullHref}>
                         <div className={cn(

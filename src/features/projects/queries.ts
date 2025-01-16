@@ -33,14 +33,15 @@ export const getProject = async ({projectId}: GetProjectProps) => {
 export const getInviteInfo = async ({code}: GetInviteInfoProps) => {
     try {
         console.log("Creating client")
-        const {project} = await createAdminClient();
+        const {project} = await createSessionClient();
         console.log("Client Created")
         let result = await project.get_invite_with_code({code});
         console.log(`Got ${result.project_name}`)
         return {
-            name: result.project_name
+            project_name: result.project_name,
+            project_id: result.project_id
         }
-    } catch {
+    } catch(e) {
         return null;
     }
 }

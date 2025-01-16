@@ -13,6 +13,8 @@ interface GetConnectionParams {
     id: string
 }
 
+interface ListConnectionParams {}
+
 export class Connection {
     client: Client;
 
@@ -30,6 +32,29 @@ export class Connection {
      */
     async get({id}: GetConnectionParams): Promise<Models.Connection> {
         const apiPath = `/internal/connection/${id}`;
+        const payload: Payload = {};
+        const uri = new URL(this.client.config.endpoint + apiPath);
+
+        const apiHeaders: { [header: string]: string } = {
+            'content-type': 'application/json',
+        }
+
+        return await this.client.call(
+            'get',
+            uri,
+            apiHeaders,
+            payload,
+        );
+    }
+
+    /**
+     * Get list of connections
+     *
+     * @throws {LLMurException}
+     * @returns {Promise<Models.Connection<Preferences>>}
+     */
+    async list({}: ListConnectionParams): Promise<Models.ConnectionList> {
+        const apiPath = `/internal/connection`;
         const payload: Payload = {};
         const uri = new URL(this.client.config.endpoint + apiPath);
 

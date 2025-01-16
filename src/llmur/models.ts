@@ -1,5 +1,6 @@
 import {AzureOpenAiApiVersion} from "@/llmur/enums/azure-versions";
 import {ProjectRole} from "@/llmur/enums/project-roles";
+import {Provider} from "@/llmur/enums/providers";
 
 /**
  * Appwrite Models
@@ -32,7 +33,20 @@ export namespace Models {
         projects: Project[];
     }
     /**
-     * Project List
+     * Connection List
+     */
+    export type ConnectionList = {
+        /**
+         * Total number of users documents that matched your query.
+         */
+        total: number;
+        /**
+         * List of users.
+         */
+        connections: Connection[];
+    }
+    /**
+     * Project Invite List
      */
     export type ProjectInviteList = {
         /**
@@ -45,7 +59,7 @@ export namespace Models {
         invites: ProjectInvite[];
     }
     /**
-     * Project Invite List
+     * Project Membership List
      */
     export type ProjectMembershipList = {
         /**
@@ -172,7 +186,7 @@ export namespace Models {
         /**
          * Id of the connection
          */
-        $id: string;
+        id: string;
         /**
          * The alias of the connection.
          */
@@ -184,7 +198,7 @@ export namespace Models {
         /**
          * The provider for the connection.
          */
-        provider: string;
+        provider: Provider;
     };
     /**
      *  Project
@@ -255,7 +269,7 @@ export namespace Models {
         /**
          * The role the user has on the project
          */
-        name: ProjectRole;
+        role: ProjectRole;
     };
     /**
      * Token
@@ -322,99 +336,20 @@ export namespace Models {
         /**
          * Deployment ID.
          */
-        $id: string;
+        id: string;
         /**
-         * Deployment creation date in ISO 8601 format.
+         * Deployment name
          */
-        $createdAt: string;
+        name: string;
         /**
-         * Deployment update date in ISO 8601 format.
+         * Deployment project
          */
-        $updatedAt: string;
+        project_id: string;
         /**
-         * Type of deployment.
+         * Deployment connections id
          */
-        type: string;
-        /**
-         * Resource ID.
-         */
-        resourceId: string;
-        /**
-         * Resource type.
-         */
-        resourceType: string;
-        /**
-         * The entrypoint file to use to execute the deployment code.
-         */
-        entrypoint: string;
-        /**
-         * The code size in bytes.
-         */
-        size: number;
-        /**
-         * The build output size in bytes.
-         */
-        buildSize: number;
-        /**
-         * The current build ID.
-         */
-        buildId: string;
-        /**
-         * Whether the deployment should be automatically activated.
-         */
-        activate: boolean;
-        /**
-         * The deployment status. Possible values are &quot;processing&quot;, &quot;building&quot;, &quot;waiting&quot;, &quot;ready&quot;, and &quot;failed&quot;.
-         */
-        status: string;
-        /**
-         * The build logs.
-         */
-        buildLogs: string;
-        /**
-         * The current build time in seconds.
-         */
-        buildTime: number;
-        /**
-         * The name of the vcs provider repository
-         */
-        providerRepositoryName: string;
-        /**
-         * The name of the vcs provider repository owner
-         */
-        providerRepositoryOwner: string;
-        /**
-         * The url of the vcs provider repository
-         */
-        providerRepositoryUrl: string;
-        /**
-         * The branch of the vcs repository
-         */
-        providerBranch: string;
-        /**
-         * The commit hash of the vcs commit
-         */
-        providerCommitHash: string;
-        /**
-         * The url of vcs commit author
-         */
-        providerCommitAuthorUrl: string;
-        /**
-         * The name of vcs commit author
-         */
-        providerCommitAuthor: string;
-        /**
-         * The commit message
-         */
-        providerCommitMessage: string;
-        /**
-         * The url of the vcs commit
-         */
-        providerCommitUrl: string;
-        /**
-         * The branch of the vcs repository
-         */
-        providerBranchUrl: string;
+        connections: string[];
+
     }
     /**
      * Headers
@@ -428,46 +363,5 @@ export namespace Models {
          * Header value.
          */
         value: string;
-    }
-    /**
-     * Provider
-     */
-    export type Provider = {
-        /**
-         * Provider ID.
-         */
-        $id: string;
-        /**
-         * Provider creation time in ISO 8601 format.
-         */
-        $createdAt: string;
-        /**
-         * Provider update date in ISO 8601 format.
-         */
-        $updatedAt: string;
-        /**
-         * The name for the provider instance.
-         */
-        name: string;
-        /**
-         * The name of the provider service.
-         */
-        provider: string;
-        /**
-         * Is provider enabled?
-         */
-        enabled: boolean;
-        /**
-         * Type of provider.
-         */
-        type: string;
-        /**
-         * Provider credentials.
-         */
-        credentials: object;
-        /**
-         * Provider options.
-         */
-        options?: object;
     }
 }

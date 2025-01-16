@@ -18,6 +18,7 @@ export const useJoinProject = () => {
             const response = await client.api.project["join"]["$post"]({json});
 
             if (!response.ok) {
+                console.log(`Error: ${response.text}`)
                 throw new Error("Failed to join project")
             }
 
@@ -25,9 +26,12 @@ export const useJoinProject = () => {
         },
         onSuccess: () => {
             toast.success("Joined project successfully");
+            console.log(`OnSuccess`);
             queryClient.invalidateQueries({queryKey: ["projects"]});
+            console.log("Invalidated projects");
         },
         onError: () => {
+            console.log("OnError")
             toast.error("Failed to join project");
         }
     });

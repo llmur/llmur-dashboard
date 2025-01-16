@@ -18,7 +18,7 @@ import {useConfirm} from "@/hooks/use-confirm";
 import {useDeleteProject} from "@/features/projects/api/use-delete-project";
 import {useDeleteInvite} from "@/features/projects/api/use-delete-invite";
 import {useListInvites} from "@/features/projects/api/use-list-invites";
-import {Fragment} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {toast} from "sonner";
 import {CreateInviteModal} from "@/features/projects/components/create-invite-modal";
@@ -108,7 +108,13 @@ export const EditProjectForm = ({onCancel, initialValues}: EditProjectFormProps)
 
     const {open: openCreateInviteModal} = useCreateInviteModal();
 
-    const inviteLinkPrefix = `${window.location.origin}/project/join`
+    const [inviteLinkPrefix, setInviteLinkPrefix] = useState("");
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setInviteLinkPrefix(`${window.location.origin}/project/join`);
+        }
+    }, []);
 
     const handleCopyInviteLink = (value: string) => {
         navigator.clipboard.writeText(value)

@@ -25,7 +25,7 @@ const ProjectIdSettingsPage = async ({
     }
 
     return (
-        <div className="w-full lg:max-w-xl">
+        <div className="h-full flex flex-col space-y-4">
             <EditProjectForm initialValues={initialValues}/>
         </div>
     );

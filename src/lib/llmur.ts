@@ -2,7 +2,7 @@ import "server-only"
 
 import {
     Client,
-    Account, Project
+    Account, Project, Connection
 } from "@/llmur";
 import {cookies} from "next/headers";
 import {AUTH_COOKIE} from "@/features/auth/constants";
@@ -25,6 +25,9 @@ export async function createSessionClient() {
         },
         get project() {
             return new Project(client)
+        },
+        get connection() {
+            return new Connection(client)
         }
     }
 }
@@ -40,6 +43,9 @@ export async function createAdminClient() {
         },
         get project() {
             return new Project(client)
+        },
+        get connection() {
+            return new Connection(client)
         }
     }
 }
