@@ -8,8 +8,9 @@ import {AdminNavigation} from "@/components/admin-navigation";
 export const Sidebar = () => {
     return (
         <aside className="h-full bg-neutral-100 p-6 w-full">
-            <Link href="/">
-                <Image src="/logo.svg" alt="logo" width={48} height={48}/>
+            <Link href="/" className="flex items-center">
+                <Image src="/logo.svg" alt="logo" width={55} height={55}/>
+                <span className="pl-4 text-3xl font-bold text-neutral-800">LLMur</span>
             </Link>
 
             <DottedSeparator className="my-4"/>
