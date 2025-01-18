@@ -1,12 +1,15 @@
 import { LLMurException, Client, type Payload } from '../client';
 import type { Models } from '../models';
 import {AzureOpenAiApiVersion} from "@/llmur/enums/azure-versions";
+import {Provider} from "@/llmur";
 
 interface CreateAzureOpenAiConnectionParams {
     deployment_name: string,
     api_endpoint: string,
     api_key: string,
-    api_version: AzureOpenAiApiVersion
+    api_version: AzureOpenAiApiVersion,
+    access: "public" | "private",
+    projects?: string[]
 }
 
 interface GetConnectionParams {
@@ -82,7 +85,7 @@ export class Connection {
      * @throws {LLMurException}
      * @returns {Promise<Models.User<Preferences>>}
      */
-    async createAzureOpenAiConnection({deployment_name, api_key, api_version, api_endpoint}: CreateAzureOpenAiConnectionParams): Promise<Models.Connection> {
+    async createAzureOpenAiConnection({deployment_name, api_key, api_version, api_endpoint, access, projects}: CreateAzureOpenAiConnectionParams): Promise<Models.Connection> {
         if (typeof deployment_name === 'undefined') {
             throw new LLMurException('Missing required parameter: "deployment_name"');
         }
@@ -95,8 +98,14 @@ export class Connection {
         if (typeof api_endpoint === 'undefined') {
             throw new LLMurException('Missing required parameter: "api_endpoint"');
         }
+        if (typeof access === 'undefined') {
+            throw new LLMurException('Missing required parameter: "access"');
+        }
+
         const apiPath = '/internal/connection';
         const payload: Payload = {};
+
+        payload['provider'] = Provider.AzureOpenAi;
 
         if (typeof deployment_name !== 'undefined') {
             payload['deployment_name'] = deployment_name;
@@ -109,6 +118,12 @@ export class Connection {
         }
         if (typeof api_endpoint !== 'undefined') {
             payload['api_endpoint'] = api_endpoint;
+        }
+        if (typeof access !== 'undefined') {
+            payload['access'] = access;
+        }
+        if (typeof projects !== 'undefined') {
+            payload['projects'] = projects;
         }
 
         const uri = new URL(this.client.config.endpoint + apiPath);

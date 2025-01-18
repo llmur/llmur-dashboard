@@ -14,13 +14,13 @@ export type AzureOpenAiConnectionCreateData = {
     api_endpoint: string;
     deployment_name: string;
     api_key: string;
-    azure_openai_api_version: AzureOpenAiApiVersion | "";
+    azure_openai_api_version: AzureOpenAiApiVersion;
 }
 export const initialAzureOpenAiConnectionCreateData: AzureOpenAiConnectionCreateData = {
     api_endpoint: '',
     deployment_name: '',
     api_key: '',
-    azure_openai_api_version: ''
+    azure_openai_api_version: AzureOpenAiApiVersion.V2024_02_01
 }
 
 export type OpenAiV1ConnectionCreateData = {

@@ -20,7 +20,7 @@ interface ConnectionsListProps {
     canCreateConnection?: boolean;
 }
 
-const ConnectionsList = ({canCreateConnection}: ConnectionsListProps) => {
+export const ConnectionsList = ({canCreateConnection}: ConnectionsListProps) => {
     const [ConfirmRemoveConnectionDialog, confirmRemoveConnection] = useConfirm(
         "Remove connection",
         "This connection will be removed permanently. This will affect all deployments that might still be using it. Are you sure you want to remove this connection?",
@@ -125,5 +125,3 @@ const ConnectionsList = ({canCreateConnection}: ConnectionsListProps) => {
         </div>
     );
 };
-
-export default ConnectionsList;

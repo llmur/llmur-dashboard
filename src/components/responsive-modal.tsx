@@ -22,8 +22,8 @@ export const ResponsiveModal = ({children, open, onOpenChange}: ResponsiveModalP
         return (
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent
-                    className="w-full sm:max-w-lg p-0 border-none overflow-y-auto hide-scrollbar max-h-[85vh]">
-                    <DialogTitle title="Modal title"/>
+                    className="w-full sm:max-w-2xl p-0 border-none overflow-y-auto hide-scrollbar max-h-[85vh] rounded-md">
+                    <DialogTitle title="Modal title" hidden/>
                     {children}
                 </DialogContent>
             </Dialog>
@@ -31,12 +31,9 @@ export const ResponsiveModal = ({children, open, onOpenChange}: ResponsiveModalP
     } else {
         return (
             <Drawer open={open} onOpenChange={onOpenChange}>
-                <DrawerContent>
-                    <DrawerTitle title="Modal title"/>
-                    <div
-                        className="overflow-y-auto hide-scrollbar max-h-[85vh]">
-                        {children}
-                    </div>
+                <DrawerContent className="overflow-y-auto hide-scrollbar max-h-[85vh] p-0 border-none rounded-md m-0">
+                    <DrawerTitle title="Modal title" hidden/>
+                    {children}
                 </DrawerContent>
             </Drawer>
         );

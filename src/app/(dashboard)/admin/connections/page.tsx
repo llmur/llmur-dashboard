@@ -1,6 +1,6 @@
 import {getCurrent} from "@/features/auth/queries";
 import {redirect} from "next/navigation";
-import ConnectionsList from "@/features/connections/components/connections-list";
+import {ConnectionsList} from "@/features/connections/components/connections-list";
 
 const ConnectionsAdminPage = async () => {
     const user = await getCurrent();
