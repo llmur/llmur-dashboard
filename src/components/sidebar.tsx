@@ -5,7 +5,7 @@ import {Navigation} from "@/components/navigation";
 import {ProjectSwitcher} from "@/components/project-switcher";
 import {AdminNavigation} from "@/components/admin-navigation";
 
-export const Sidebar = () => {
+export const Sidebar = async () => {
     return (
         <aside className="h-full bg-neutral-100 p-6 w-full">
             <Link href="/" className="flex items-center">

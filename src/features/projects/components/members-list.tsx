@@ -1,10 +1,8 @@
 "use client";
 
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {useProjectId} from "@/features/projects/hooks/use-project-id";
 import {Button} from "@/components/ui/button";
-import {ArrowLeftIcon, MoreVerticalIcon} from "lucide-react";
-import Link from "next/link";
+import {MoreVerticalIcon} from "lucide-react";
 import {DottedSeparator} from "@/components/dotted-separator";
 import {useListMembers} from "@/features/projects/api/use-list-members";
 import {Fragment} from "react";
@@ -16,14 +14,16 @@ import {useUpdateMember} from "@/features/projects/api/use-update-member";
 import {ProjectRole} from "@/llmur";
 import {useConfirm} from "@/hooks/use-confirm";
 import {Badge} from "@/components/ui/badge";
+import {useProjectId} from "@/features/projects/hooks/use-project-id";
 
-const MembersList = () => {
-    const projectId = useProjectId();
+export const MembersList = () => {
     const [ConfirmRemoveMemberDialog, confirmRemoveMember] = useConfirm(
         "Remove member",
         "This member will be removed from this project",
         "destructive"
     );
+
+    const projectId = useProjectId();
 
     const {data} = useListMembers({projectId})
     const {
@@ -131,4 +131,3 @@ const MembersList = () => {
     );
 };
 
-export default MembersList;

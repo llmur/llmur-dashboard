@@ -1,11 +1,11 @@
 "use client";
 
-import {GoCheckCircle, GoCheckCircleFill, GoHome, GoHomeFill} from "react-icons/go";
-import {SettingsIcon} from "lucide-react";
 import {usePathname} from "next/navigation";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
 import {PiUser, PiUserFill} from "react-icons/pi";
+import {AiFillApi, AiOutlineApi} from "react-icons/ai";
+import {TbSettings, TbSettingsFilled} from "react-icons/tb";
 
 export const AdminNavigation = () => {
     const pathname = usePathname();
@@ -14,20 +14,20 @@ export const AdminNavigation = () => {
         {
             label: 'Users',
             href: '/users',
-            icon: PiUser,
-            activeIcon: PiUserFill
+            activeIcon: PiUser,
+            icon: PiUserFill
         },
         {
             label: 'Connections',
             href: '/connections',
-            icon: GoCheckCircle,
-            activeIcon: GoCheckCircleFill
+            activeIcon: AiOutlineApi,
+            icon: AiFillApi
         },
         {
             label: 'Settings',
             href: '/settings',
-            icon: SettingsIcon,
-            activeIcon: SettingsIcon
+            activeIcon: TbSettings,
+            icon: TbSettingsFilled
         },
     ];
 

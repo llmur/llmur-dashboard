@@ -5,14 +5,16 @@ import {RiAddCircleFill} from "react-icons/ri";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ProjectAvatar} from "@/features/projects/components/project-avatar";
 import {useRouter} from "next/navigation";
-import {useProjectId} from "@/features/projects/hooks/use-project-id";
 import {useCreateProjectModal} from "@/features/projects/hooks/use-create-project-modal";
+import {useProjectId} from "@/features/projects/hooks/use-project-id";
+
 
 export const ProjectSwitcher = () => {
-    const projectId = useProjectId();
     const router = useRouter();
     const {data} = useListProjects();
     const {open} = useCreateProjectModal();
+
+    const projectId = useProjectId();
 
     const onSelect = (id: string) => {
         router.push(`/project/${id}`);
