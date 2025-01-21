@@ -30,7 +30,7 @@ export const StepProviderSelection = () => {
                                 variant="ghost"
                                 className={`border-[1px] p-6 h-auto flex flex-col items-center space-y-2 w-full transition-all duration-300 ease-in-out rounded-lg ${
                                     isSelected
-                                        ? "border-purple-500 bg-purple-50 hover:bg-purple-100"
+                                        ? "border-amber-500 bg-amber-50 hover:bg-amber-100"
                                         : "border-neutral-200 hover:bg-transparent hover:-translate-y-2 hover:shadow-lg"
                                 }`}
                                 onClick={() => {

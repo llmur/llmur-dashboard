@@ -41,14 +41,14 @@ export const StepAccessConfiguration = ()=> {
                             onCheckedChange={(checked) => {
                                 field.onChange(checked ? "private" : "public");
                             }}
-                            className="data-[state=checked]:bg-purple-500"
+                            className="data-[state=checked]:bg-amber-500"
                         />)}
                 />
                 <div className="flex items-center space-x-2">
-                    <span className={`text-sm font-medium ${isPrivate ? 'text-purple-500' : 'text-gray-500'}`}>
+                    <span className={`text-sm font-medium ${isPrivate ? 'text-amber-500' : 'text-gray-500'}`}>
                       Private
                     </span>
-                    <LockIcon className={`h-5 w-5 ${isPrivate ? 'text-purple-500' : 'text-gray-300'}`}/>
+                    <LockIcon className={`h-5 w-5 ${isPrivate ? 'text-amber-500' : 'text-gray-300'}`}/>
                 </div>
             </div>
             <AnimatePresence>

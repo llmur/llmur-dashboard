@@ -120,7 +120,7 @@ export const CreateConnectionForm = () => {
 
     return (
         <Card className="w-full h-full border-none shadow-none overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+            <CardHeader className="bg-gradient-to-r from-orange-700 to-amber-500 text-white">
                 <Breadcrumbs
                     steps={steps}
                     currentStep={currentStep}
