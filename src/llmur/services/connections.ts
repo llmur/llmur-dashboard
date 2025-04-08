@@ -18,7 +18,7 @@ interface GetConnectionParams {
 
 interface ListConnectionParams {}
 
-export class Connection {
+export class Connections {
     client: Client;
 
     constructor(client: Client) {

@@ -1,7 +1,7 @@
-import { fetch, FormData, File } from 'node-fetch-native-with-agent';
-import { createAgent } from 'node-fetch-native-with-agent/agent';
+import {fetch, FormData, File} from 'node-fetch-native-with-agent';
+import {createAgent} from 'node-fetch-native-with-agent/agent';
 
-import { Models } from './models';
+import {Models} from './models';
 
 type Payload = {
     [key: string]: any;
@@ -23,6 +23,7 @@ class LLMurException extends Error {
     code: number;
     response: string;
     type: string;
+
     constructor(message: string, code: number = 0, type: string = '', response: string = '') {
         super(message);
         this.name = 'LLMurException';
@@ -109,6 +110,7 @@ class Client {
         this.config.key = value;
         return this;
     }
+
     /**
      * Set Session
      *
@@ -124,7 +126,10 @@ class Client {
         return this;
     }
 
-    prepareRequest(method: string, url: URL, headers: Headers = {}, params: Payload = {}): { uri: string, options: RequestInit } {
+    prepareRequest(method: string, url: URL, headers: Headers = {}, params: Payload = {}): {
+        uri: string,
+        options: RequestInit
+    } {
         method = method.toUpperCase();
 
         headers = Object.assign({}, this.headers, headers);
@@ -132,7 +137,7 @@ class Client {
         let options: RequestInit = {
             method,
             headers,
-            ...createAgent(this.config.endpoint, { rejectUnauthorized: !this.config.selfSigned }),
+            ...createAgent(this.config.endpoint, {rejectUnauthorized: !this.config.selfSigned}),
         };
 
         if (method === 'GET') {
@@ -166,7 +171,7 @@ class Client {
             }
         }
 
-        return { uri: url.toString(), options };
+        return {uri: url.toString(), options};
     }
 
     async chunkedUpload(method: string, url: URL, headers: Headers = {}, originalPayload: Payload = {}, onProgress: (progress: UploadProgress) => void) {
@@ -189,10 +194,10 @@ class Client {
                 end = file.size; // Adjust for the last chunk to include the last byte
             }
 
-            headers['content-range'] = `bytes ${start}-${end-1}/${file.size}`;
+            headers['content-range'] = `bytes ${start}-${end - 1}/${file.size}`;
             const chunk = file.slice(start, end);
 
-            let payload = { ...originalPayload, file: new File([chunk], file.name)};
+            let payload = {...originalPayload, file: new File([chunk], file.name)};
 
             response = await this.call(method, url, headers, payload);
 
@@ -217,7 +222,7 @@ class Client {
     }
 
     async redirect(method: string, url: URL, headers: Headers = {}, params: Payload = {}): Promise<string> {
-        const { uri, options } = this.prepareRequest(method, url, headers, params);
+        const {uri, options} = this.prepareRequest(method, url, headers, params);
 
         const response = await fetch(uri, {
             ...options,
@@ -232,7 +237,7 @@ class Client {
     }
 
     async call(method: string, url: URL, headers: Headers = {}, params: Payload = {}, responseType = 'json'): Promise<any> {
-        const { uri, options } = this.prepareRequest(method, url, headers, params);
+        const {uri, options} = this.prepareRequest(method, url, headers, params);
 
         let data: any = null;
 
@@ -254,6 +259,7 @@ class Client {
         }
 
         if (400 <= response.status) {
+            console.log("Error[" + response?.status + "] message: " + data?.message)
             throw new LLMurException(data?.message, response.status, data?.type, data);
         }
 
@@ -264,9 +270,9 @@ class Client {
         let output: Payload = {};
 
         for (const [key, value] of Object.entries(data)) {
-            let finalKey = prefix ? prefix + '[' + key +']' : key;
+            let finalKey = prefix ? prefix + '[' + key + ']' : key;
             if (Array.isArray(value)) {
-                output = { ...output, ...Client.flatten(value, finalKey) };
+                output = {...output, ...Client.flatten(value, finalKey)};
             } else {
                 output[finalKey] = value;
             }
@@ -276,5 +282,5 @@ class Client {
     }
 }
 
-export { Client, LLMurException };
-export type { Models, Payload, UploadProgress };
+export {Client, LLMurException};
+export type {Models, Payload, UploadProgress};

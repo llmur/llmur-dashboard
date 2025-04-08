@@ -4,6 +4,7 @@ import {toast} from "sonner";
 
 import {client} from "@/lib/rpc";
 import {useRouter} from "next/navigation";
+import {logoutAction} from "@/features/auth/server/actions";
 
 type ResponseType = InferResponseType<typeof client.api.auth.logout["$post"]>;
 
@@ -16,13 +17,9 @@ export const useLogout = () => {
         Error
     >({
         mutationFn: async () => {
-            const response = await client.api.auth.logout["$post"]();
-
-            if (!response.ok) {
-                throw new Error("Failed to logout");
-            }
-
-            return response.json();
+            const response = await logoutAction();
+            if (!response.success) throw new Error(response.error);
+            return {success: true};
         },
         onSuccess: () => {
             toast.success("Logged out successfully");

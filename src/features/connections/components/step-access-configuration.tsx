@@ -16,12 +16,12 @@ import {AnimatePresence, motion} from "framer-motion";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Checkbox} from "@/components/ui/checkbox";
-import {useListProjects} from "@/features/projects/api/use-list-projects";
+import {useListMemberships} from "@/features/projects/api/use-list-memberships";
 
 export const StepAccessConfiguration = ()=> {
     const form = useFormContext<z.infer<typeof formSchema>>();
     const isPrivate = form.watch("accessConfig.access") === "private"
-    const {data} = useListProjects();
+    const {data} = useListMemberships();
 
     return (
         <>
@@ -75,12 +75,12 @@ export const StepAccessConfiguration = ()=> {
                                     name="accessConfig.projects"
                                     render={({field}) => (
                                         <TableBody>
-                                            {data?.memberships.map(({project_id, project_name}) => {
+                                            {data?.values().map(({project, membership}) => {
                                                 // Check if the project is currently selected
-                                                const isChecked = field.value?.includes(project_id);
+                                                const isChecked = field.value?.includes(project.id);
 
                                                 return (
-                                                    <TableRow key={project_id}
+                                                    <TableRow key={project.id}
                                                               className="hover:bg-muted/50 transition-colors">
                                                         <TableCell className="text-center">
                                                             <Checkbox
@@ -88,15 +88,15 @@ export const StepAccessConfiguration = ()=> {
                                                                 onCheckedChange={(checked) => {
                                                                     if (checked) {
                                                                         // Add project_id to the array
-                                                                        field.onChange([...field.value, project_id]);
+                                                                        field.onChange([...field.value, project.id]);
                                                                     } else {
                                                                         // Remove project_id from the array
-                                                                        field.onChange(field.value.filter((id: string) => id !== project_id));
+                                                                        field.onChange(field.value.filter((id: string) => id !== project.id));
                                                                     }
                                                                 }}
                                                             />
                                                         </TableCell>
-                                                        <TableCell>{project_name}</TableCell>
+                                                        <TableCell>{project.name}</TableCell>
                                                     </TableRow>
                                                 )
                                             })}

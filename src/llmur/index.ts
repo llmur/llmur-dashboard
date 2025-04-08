@@ -1,7 +1,8 @@
 export { Client, LLMurException } from './client';
-export { Account } from './services/account';
-export { Connection } from './services/connection';
-export { Project } from './services/project';
+export { Users } from './services/users';
+export { Sessions } from './services/sessions';
+export { Connections } from './services/connections';
+export { Projects } from './services/projects';
 
 export { AzureOpenAiApiVersion } from './enums/azure-versions';
 export { ProjectRole } from './enums/project-roles';

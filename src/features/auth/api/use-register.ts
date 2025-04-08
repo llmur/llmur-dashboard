@@ -1,12 +1,13 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {InferRequestType, InferResponseType} from "hono";
 import {toast} from "sonner";
 
-import {client} from "@/lib/rpc";
 import {useRouter} from "next/navigation";
+import {loginAction, registerAction} from "@/features/auth/server/actions";
+import {z} from "zod";
+import {registerSchema} from "@/features/auth/schemas";
 
-type ResponseType = InferResponseType<typeof client.api.auth.register["$post"]>;
-type RequestType = InferRequestType<typeof client.api.auth.register["$post"]>;
+type ResponseType = void;
+type RequestType = z.infer<typeof registerSchema>;
 
 export const useRegister = () => {
     const router = useRouter();
@@ -16,14 +17,17 @@ export const useRegister = () => {
         Error,
         RequestType
     >({
-        mutationFn: async ({json}) => {
-            const response = await client.api.auth.register["$post"]({json});
+        mutationFn: async (data) => {
+            const response = await registerAction(data);
 
-            if(!response.ok) {
-                throw new Error("Failed to create account");
+            if (!response.success) {
+                throw new Error(response.error);
             }
 
-            return response.json();
+            await loginAction({
+                email: data.email,
+                password: data.password
+            })
         },
         onSuccess: () => {
             toast.success("Account created successfully");

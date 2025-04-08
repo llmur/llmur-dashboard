@@ -1,3 +1,4 @@
+/*
 import {createAdminClient, createSessionClient} from "@/lib/llmur";
 
 interface GetUserProjectsProps {
@@ -45,3 +46,4 @@ export const getInviteInfo = async ({code}: GetInviteInfoProps) => {
         return null;
     }
 }
+ */

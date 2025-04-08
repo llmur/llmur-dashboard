@@ -149,11 +149,11 @@ export const EditProjectForm = ({onCancel, initialValues}: EditProjectFormProps)
                                         name="name"
                                         render={({field}) => (
                                             <FormItem>
-                                                <FormLabel>Project Name</FormLabel>
+                                                <FormLabel>Projects Name</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
-                                                        placeholder="Project Name"
+                                                        placeholder="Projects Name"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>

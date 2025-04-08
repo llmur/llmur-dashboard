@@ -1,6 +1,6 @@
 "use client"
 
-import {useListProjects} from "@/features/projects/api/use-list-projects";
+import {useListMemberships} from "@/features/projects/api/use-list-memberships";
 import {RiAddCircleFill} from "react-icons/ri";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ProjectAvatar} from "@/features/projects/components/project-avatar";
@@ -11,7 +11,7 @@ import {useProjectId} from "@/features/projects/hooks/use-project-id";
 
 export const ProjectSwitcher = () => {
     const router = useRouter();
-    const {data} = useListProjects();
+    const {data} = useListMemberships();
     const {open} = useCreateProjectModal();
 
     const projectId = useProjectId();
@@ -31,11 +31,11 @@ export const ProjectSwitcher = () => {
                     <SelectValue placeholder="No project selected"/>
                 </SelectTrigger>
                 <SelectContent>
-                    {data?.memberships.map((membership) => (
-                        <SelectItem key={membership.project_id} value={membership.project_id}>
+                    {data?.map(({project}) => (
+                        <SelectItem key={project.id} value={project.id}>
                             <div className="flex justify-start items-center gap-3 font-medium">
-                                <ProjectAvatar name={membership.project_name}/>
-                                <span className="truncate">{membership.project_name}</span>
+                                <ProjectAvatar name={project.name}/>
+                                <span className="truncate">{project.name}</span>
                             </div>
                         </SelectItem>
                     ))}

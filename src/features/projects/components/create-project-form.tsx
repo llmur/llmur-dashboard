@@ -29,8 +29,8 @@ export const CreateProjectForm = ({onCancel}: CreateProjectFormProps) => {
     });
 
     const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
-        mutate({json: values}, {
-            onSuccess: ({ data }) => {
+        mutate(values, {
+            onSuccess: (data) => {
                 form.reset();
                 router.push(`/project/${data.id}`);
             }
@@ -41,7 +41,7 @@ export const CreateProjectForm = ({onCancel}: CreateProjectFormProps) => {
         <Card className="w-full h-full border-none shadow-none">
             <CardHeader className="flex p-7">
                 <CardTitle className="text-xl font-bold">
-                    Create a new Project
+                    Create a new Projects
                 </CardTitle>
 
             </CardHeader>
@@ -56,11 +56,11 @@ export const CreateProjectForm = ({onCancel}: CreateProjectFormProps) => {
                                     name="name"
                                     render={({field}) => (
                                         <FormItem>
-                                            <FormLabel>Project Name</FormLabel>
+                                            <FormLabel>Projects Name</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
-                                                    placeholder="Project Name"
+                                                    placeholder="Projects Name"
                                                 />
                                             </FormControl>
                                             <FormMessage/>
@@ -86,7 +86,7 @@ export const CreateProjectForm = ({onCancel}: CreateProjectFormProps) => {
                                     variant="default"
                                     disabled={isPending}
                                 >
-                                    Create Project
+                                    Create Projects
                                 </Button>
                             </div>
                         </form>

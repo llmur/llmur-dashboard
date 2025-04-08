@@ -1,10 +1,10 @@
-import {createSessionClient} from "@/lib/llmur";
+import {getCurrentUserSession} from "@/lib/auth";
 
 export const getCurrent = async () => {
     try {
-        const {account} = await createSessionClient();
-        return await account.get();
-    } catch {
+        return await getCurrentUserSession();
+    }
+    catch (error) {
         return null;
     }
 }

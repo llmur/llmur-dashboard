@@ -33,7 +33,7 @@ export const UserButton = () => {
         return null;
     }
 
-    const {name, email} = user;
+    const {user: {name, email}} = user;
     const avatarFallback = name
         ? name.charAt(0).toUpperCase()
         : email.charAt(0).toUpperCase() ?? "U";

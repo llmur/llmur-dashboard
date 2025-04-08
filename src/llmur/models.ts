@@ -1,6 +1,7 @@
 import {AzureOpenAiApiVersion} from "@/llmur/enums/azure-versions";
 import {ProjectRole} from "@/llmur/enums/project-roles";
 import {Provider} from "@/llmur/enums/providers";
+import {ApplicationRole} from "@/llmur/enums/application-role";
 
 /**
  * Appwrite Models
@@ -61,7 +62,7 @@ export namespace Models {
     /**
      * Project Membership List
      */
-    export type ProjectMembershipList = {
+    export type MembershipList = {
         /**
          * Total number of membership documents that matched your query.
          */
@@ -69,12 +70,12 @@ export namespace Models {
         /**
          * List of Memberships.
          */
-        memberships: ProjectMembership[];
+        memberships: Membership[];
     }
     /**
      * Sessions List
      */
-    export type SessionList = {
+    export type SessionTokenList = {
         /**
          * Total number of sessions documents that matched your query.
          */
@@ -82,7 +83,7 @@ export namespace Models {
         /**
          * List of sessions.
          */
-        sessions: Session[];
+        tokens: SessionToken[];
     }
     /**
      * Teams List
@@ -146,7 +147,7 @@ export namespace Models {
         /**
          * Email verification status.
          */
-        email_verified: boolean;
+        role: ApplicationRole;
     }
     /**
      * User
@@ -166,18 +167,32 @@ export namespace Models {
     /**
      * Session
      */
-    export type Session = {
-        /**
-         * Session ID.
-         */
-        $id: string;
+    export type SessionToken = {
         /**
          * Session Provider Access Token.
          */
         token: string;
         /**
-         * The date of when the access token expires in ISO 8601 format.
+         * If the token is revoked.
          */
+        info: SessionTokenInfo;
+    }
+    /**
+     * Session
+     */
+    export type SessionTokenInfo = {
+        /**
+         * Session ID.
+         */
+        id: string;
+        /**
+         * Session Provider Access Token.
+         */
+        revoked: boolean;
+        /**
+         * Session Provider Access Token.
+         */
+        user_id: string;
     }
     /**
      *  Connection
@@ -226,26 +241,26 @@ export namespace Models {
          */
         project_id: string;
         /**
-         * The project name.
-         */
-        project_name: string;
-        /**
          * The invite code
          */
         code: string;
         /**
          * The Role that will be assigned to a user when he joins the team
          */
-        assign_role: ProjectRole;
+        role: ProjectRole;
         /**
          * Timestamp that represents the until when the code is active. Utc
          */
         valid_until?: number;
+        /**
+         * Timestamp that represents the until when the code is active. Utc
+         */
+        valid: boolean;
     };
     /**
      *  Project
      */
-    export type ProjectMembership = {
+    export type Membership = {
         /**
          * Id of the project membership
          */
@@ -258,14 +273,6 @@ export namespace Models {
          * Id of the user
          */
         user_id: string;
-        /**
-         * Name of the project
-         */
-        project_name: string;
-        /**
-         * Name of the user
-         */
-        user_name: string;
         /**
          * The role the user has on the project
          */

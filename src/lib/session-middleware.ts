@@ -6,22 +6,26 @@ import {createMiddleware} from "hono/factory";
 import {
     Client,
     Models,
-    Account,
-    Connection,
-    Project,
-    type Connection as ConnectionType,
-    type Project as ProjectType,
-    type Account as AccountType,
+    Users,
+    Sessions,
+    Connections,
+    Projects,
+    type Connections as ConnectionType,
+    type Projects as ProjectType,
+    type Users as UserType,
+    type Sessions as SessionType,
 } from "@/llmur";
 
 import {AUTH_COOKIE} from "@/features/auth/constants";
 
 type AdditionalContext = {
     Variables: {
-        account: AccountType,
-        connection: ConnectionType,
-        project: ProjectType,
-        user: Models.User
+        users: UserType,
+        sessions: SessionType,
+        projects: ProjectType,
+        connections: ConnectionType,
+
+        current_user: Models.User
     }
 }
 
@@ -38,16 +42,19 @@ export const sessionMiddleware = createMiddleware<AdditionalContext>(
 
         client.setSession(session);
 
-        const account= new Account(client)
-        const connection= new Connection(client)
-        const project= new Project(client)
+        const users= new Users(client)
+        const sessions= new Sessions(client)
+        const connections= new Connections(client)
+        const projects= new Projects(client)
 
-        const user = await account.get();
+        const current_user = await users.me();
 
-        c.set("account", account);
-        c.set("connection", connection);
-        c.set("project", project);
-        c.set("user", user);
+        c.set("users", users);
+        c.set("sessions", sessions);
+        c.set("projects", projects);
+        c.set("connections", connections);
+
+        c.set("current_user", current_user);
 
         await next();
     }

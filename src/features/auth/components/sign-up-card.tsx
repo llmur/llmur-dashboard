@@ -41,7 +41,7 @@ export const SignUpCard = () => {
     function onSubmit(values: z.infer<typeof registerSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        mutate({json: values});
+        mutate(values);
     }
 
     return (

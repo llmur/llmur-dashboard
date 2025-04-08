@@ -6,16 +6,15 @@ interface CreateParams {
     password: string;
 }
 
-interface CreateEmailPasswordSessionParams {
-    email: string;
-    password: string;
-}
-
-interface GetUserProjectsParams {
+interface GetUserMembershipsParams {
     id: string;
 }
 
-export class Account {
+interface GetUserParams {
+    id: string;
+}
+
+export class Users {
     client: Client;
 
     constructor(client: Client) {
@@ -30,8 +29,33 @@ export class Account {
      * @throws {AppwriteException}
      * @returns {Promise<Models.User<Preferences>>}
      */
-    async get(): Promise<Models.User> {
-        const apiPath = '/internal/user/session';
+    async me(): Promise<Models.User> {
+        const apiPath = '/admin/users/me';
+        const payload: Payload = {};
+        const uri = new URL(this.client.config.endpoint + apiPath);
+
+        const apiHeaders: { [header: string]: string } = {
+            'content-type': 'application/json',
+        }
+
+        return await this.client.call(
+            'get',
+            uri,
+            apiHeaders,
+            payload,
+        );
+    }
+
+    /**
+     * Get account
+     *
+     * Get the user with a specific id.
+     *
+     * @throws {AppwriteException}
+     * @returns {Promise<Models.User<Preferences>>}
+     */
+    async get({id}: GetUserParams): Promise<Models.User> {
+        const apiPath = `/admin/users/${id}`;
         const payload: Payload = {};
         const uri = new URL(this.client.config.endpoint + apiPath);
 
@@ -66,13 +90,15 @@ export class Account {
         if (typeof password === 'undefined') {
             throw new LLMurException('Missing required parameter: "password"');
         }
-        const apiPath = '/internal/auth/register';
+        const apiPath = '/admin/users';
         const payload: Payload = {};
 
         if (typeof email !== 'undefined') {
+            console.log("email: " + email);
             payload['email'] = email;
         }
         if (typeof password !== 'undefined') {
+            console.log("password: " + password);
             payload['password'] = password;
         }
 
@@ -90,55 +116,15 @@ export class Account {
         );
     }
 
-    /**
-     * Create email password session
-     *
-     * Allow the user to login into their account by providing a valid email and password combination. This route will create a new session for the user.
-
-     A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-     *
-     * @param {string} email
-     * @param {string} password
-     * @throws {AppwriteException}
-     * @returns {Promise<Models.Session>}
-     */
-    async createEmailPasswordSession({email, password}: CreateEmailPasswordSessionParams): Promise<Models.Session> {
-        if (typeof email === 'undefined') {
-            throw new LLMurException('Missing required parameter: "email"');
-        }
-        if (typeof password === 'undefined') {
-            throw new LLMurException('Missing required parameter: "password"');
-        }
-        const apiPath = '/internal/auth/login';
-        const payload: Payload = {};
-        if (typeof email !== 'undefined') {
-            payload['email'] = email;
-        }
-        if (typeof password !== 'undefined') {
-            payload['password'] = password;
-        }
-        const uri = new URL(this.client.config.endpoint + apiPath);
-
-        const apiHeaders: { [header: string]: string } = {
-            'content-type': 'application/json',
-        }
-
-        return await this.client.call(
-            'post',
-            uri,
-            apiHeaders,
-            payload,
-        );
-    }
 
     /**
-     * Get all projects the user has access to
+     * Get all user memberships the user has access to
      *
      * @throws {LLMurException}
      * @returns {Promise<Models.ProjectList>}
      */
-    async projects({id}: GetUserProjectsParams): Promise<Models.ProjectMembershipList> {
-        const apiPath = `/internal/user/${id}/projects`;
+    async memberships({id}: GetUserMembershipsParams): Promise<Models.MembershipList> {
+        const apiPath = `/admin/users/${id}/memberships`;
         const payload: Payload = {};
         const uri = new URL(this.client.config.endpoint + apiPath);
 

@@ -50,7 +50,7 @@ interface CreateProjectInviteParams {
     codeLength?: number;
 }
 
-export class Project {
+export class Projects {
     client: Client;
 
     constructor(client: Client) {
@@ -69,7 +69,7 @@ export class Project {
             throw new LLMurException('Missing required parameter: "name"');
         }
 
-        const apiPath = '/internal/project';
+        const apiPath = '/admin/projects';
         const payload: Payload = {};
 
         if (typeof name !== 'undefined') {
@@ -99,7 +99,7 @@ export class Project {
      * @returns {Promise<Models.Project>}
      */
     async patch({id, name}: PatchProjectParams): Promise<Models.Project> {
-        const apiPath = `/internal/project/${id}`;
+        const apiPath = `/admin/projects/${id}`;
 
         const payload: Payload = {};
 
@@ -129,7 +129,7 @@ export class Project {
      * @returns {Promise<Models.Project>}
      */
     async get({id}: GetProjectParams): Promise<Models.Project> {
-        const apiPath = `/internal/project/${id}`;
+        const apiPath = `/admin/projects/${id}`;
 
         const payload: Payload = {};
 
@@ -153,8 +153,8 @@ export class Project {
      * @throws {LLMurException}
      * @returns {Promise<Models.ProjectList>}
      */
-    async members({id}: GetProjectMembershipsParams): Promise<Models.ProjectMembershipList> {
-        const apiPath = `/internal/project/${id}/members`;
+    async members({id}: GetProjectMembershipsParams): Promise<Models.MembershipList> {
+        const apiPath = `/admin/projects/${id}/memberships`;
         const payload: Payload = {};
         const uri = new URL(this.client.config.endpoint + apiPath);
 
@@ -178,7 +178,7 @@ export class Project {
      * @returns {Promise<Models.Project>}
      */
     async delete({id}: DeleteProjectParams): Promise<Models.Project> {
-        const apiPath = `/internal/project/${id}`;
+        const apiPath = `/admin/projects/${id}`;
 
         const payload: Payload = {};
 
@@ -204,7 +204,7 @@ export class Project {
      * @returns {Promise<Models.Project>}
      */
     async delete_invite({id}: DeleteProjectInviteParams): Promise<Models.IdRecord> {
-        const apiPath = `/internal/project/invite/${id}`;
+        const apiPath = `/admin/invite_codes/${id}`;
 
         const payload: Payload = {};
 
@@ -234,7 +234,7 @@ export class Project {
             throw new LLMurException('Missing required parameter: "projectId"');
         }
 
-        const apiPath = `/internal/project/${projectId}/invite`;
+        const apiPath = `/admin/projects/${projectId}/invite_codes`;
         const payload: Payload = {};
 
         if (typeof role !== 'undefined') {
@@ -268,7 +268,7 @@ export class Project {
      * @returns {Promise<Models.ProjectList>}
      */
     async invite_codes({id}: GetProjectInvitesParams): Promise<Models.ProjectInviteList> {
-        const apiPath = `/internal/project/${id}/invites`;
+        const apiPath = `/admin/projects/${id}/invite_codes`;
         const payload: Payload = {};
         const uri = new URL(this.client.config.endpoint + apiPath);
 
@@ -314,7 +314,7 @@ export class Project {
      * @throws {LLMurException}
      * @returns {Promise<Models.User<Preferences>>}
      */
-    async join_with_code({code}: JoinProjectParams): Promise<Models.ProjectMembership> {
+    async join_with_code({code}: JoinProjectParams): Promise<Models.Membership> {
         if (typeof code === 'undefined') {
             throw new LLMurException('Missing required parameter: "code"');
         }

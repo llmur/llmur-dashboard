@@ -1,33 +1,30 @@
-import "server-only"
-
 import {
     Client,
-    Account, Project, Connection
+    Users, Projects, Connections, Sessions
 } from "@/llmur";
-import {cookies} from "next/headers";
-import {AUTH_COOKIE} from "@/features/auth/constants";
+
+import {getCurrentUserSession} from "@/lib/auth";
 
 export async function createSessionClient() {
     const client = new Client()
         .setEndpoint(process.env.NEXT_PUBLIC_LLMUR_PROXY_URL!);
 
-    const session = (await cookies()).get(AUTH_COOKIE);
+    const current = await getCurrentUserSession();
 
-    if (!session || !session.value) {
-        throw new Error("Unauthorized");
-    }
-
-    client.setSession(session.value);
+    client.setSession(current.session.token);
 
     return {
-        get account() {
-            return new Account(client)
+        get users() {
+            return new Users(client)
         },
-        get project() {
-            return new Project(client)
+        get sessions() {
+            return new Sessions(client)
+        },
+        get projects() {
+            return new Projects(client)
         },
         get connection() {
-            return new Connection(client)
+            return new Connections(client)
         }
     }
 }
@@ -38,14 +35,17 @@ export async function createAdminClient() {
         .setKey(process.env.NEXT_LLMUR_PROXY_KEY!)
 
     return {
-        get account() {
-            return new Account(client)
+        get users() {
+            return new Users(client)
+        },
+        get sessions() {
+            return new Sessions(client)
         },
         get project() {
-            return new Project(client)
+            return new Projects(client)
         },
         get connection() {
-            return new Connection(client)
+            return new Connections(client)
         }
     }
 }

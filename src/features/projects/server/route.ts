@@ -12,7 +12,7 @@ const app = new Hono()
             const {id} = c.get("user");
             const account = c.get("account");
 
-            const lst = await account.projects({id});
+            const lst = await account.memberships({id});
 
             return c.json({data: lst});
         }
